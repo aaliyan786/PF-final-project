@@ -22,21 +22,21 @@ struct order
 	char order_subtype[20];
 	struct dimensions dim;
 	char status[20];	
-}s,cs;
+}s;
 
 
 
 
-void create_record(struct order cs)
+void create_record(struct order s)
 {
 	system("cls");
 	printf("Enter your name: ");
-	scanf("%s",&cs.name);
+	scanf("%s",&s.name);
 	printf("Enter your address details: ");
-	scanf("%s",&cs.address);
+	scanf("%s",&s.address);
 	printf("Enter your Contact number: ");
-	scanf("%s",&cs.contact);
-	strcpy(cs.status,"Response Pending");
+	scanf("%s",&s.contact);
+	strcpy(s.status,"Response Pending");
 		
 		FILE *fp;
 		fp = fopen("customer.txt","ab+");
@@ -48,7 +48,7 @@ void create_record(struct order cs)
 				return;			
 			}
 			
-		fwrite(&cs,sizeof(cs),1,fp);
+		fwrite(&s,sizeof(s),1,fp);
 		
 		fclose(fp);
 		printf("RECORD STORED SUCCESSFULLY!!!!!\nPress any key to continue...");
@@ -81,7 +81,7 @@ int create_id(int *flag)
 				id = s.customer_id + 1;
 			}
 			fclose(fp);
-			printf("your customer id is: %d\nPress any key to continue...",id);
+			printf("\nyour customer id is: %d\nPress any key to continue...",id);
 			getch();
 			return id;
 }
@@ -126,7 +126,9 @@ void search(int id)
 			{
 				flag = 1;
 				printf("\n\n\tYour Record Is As Follows:\n\n");
-				printf("ID: %d\nName: %s\nContact: %s\nAddress: %s\nOrder Type: %s\nOrder Sub-type: %s\nOrder Dimensions:\n	Height: %f\n	Length: %f\n	Width: %f\n	Diameter: %f\n	Cavity: %d\n	Status: %s",cs.customer_id,cs.name,cs.contact,cs.address,cs.order_type,cs.order_subtype,cs.dim.height,cs.dim.length,cs.dim.width,cs.dim.diameter,cs.dim.cavity,cs.status);
+				printf("ID: %d\nName: %s\nContact: %s\nAddress: %s\nOrder Type: %s\nOrder Sub-type: %s\nOrder Dimensions:\n	Height: %f\n	Length: %f\n	Width: %f\n	Diameter: %f\n	Cavity: %d\nStatus: %s",s.customer_id,s.name,s.contact,s.address,s.order_type,s.order_subtype,s.dim.height,s.dim.length,s.dim.width,s.dim.diameter,s.dim.cavity,s.status);
+				printf("\nPress any key to continue...");
+				getch();				
 			}
 		}
 		if(flag == 0)
@@ -136,7 +138,7 @@ void search(int id)
 		fclose(fp);
 		return;
 }
-void buy(struct order *cs)
+void buy(struct order *s)
 {
 	int ch_2,ch_3;
 
@@ -147,15 +149,15 @@ void buy(struct order *cs)
 	scanf("%d",&ch_2);
 	if(ch_2 == 1)
 	{
-		strcpy(cs->order_type,"Cap");
+		strcpy(s->order_type,"Cap");
 	}
 	else if (ch_2 == 2)
 	{
-		strcpy(cs->order_type,"Basket");
+		strcpy(s->order_type,"Basket");
 	}
 	else if (ch_2 == 3)
 	{
-		strcpy(cs->order_type,"Simple air-tight container");
+		strcpy(s->order_type,"Simple air-tight container");
 	}
 		
 	switch(ch_2)
@@ -169,11 +171,11 @@ void buy(struct order *cs)
 				scanf("%d",&ch_3);
 				if(ch_3 == 1)
 				{
-					strcpy(cs->order_subtype,"Flip-Top");
+					strcpy(s->order_subtype,"Flip-Top");
 				}
 				else if (ch_3 == 2)
 				{
-					strcpy(cs->order_subtype,"Screw-cap");
+					strcpy(s->order_subtype,"Screw-cap");
 				}
 				else
 				{
@@ -183,20 +185,20 @@ void buy(struct order *cs)
 				}
 				system("cls");
 				printf("Enter the height of mould:");
-				scanf("%d",&cs->dim.height);
+				scanf("%f",&s->dim.height);
 				
 				printf("Enter the diameter of mould:");
-				scanf("%d",&cs->dim.diameter);
+				scanf("%f",&s->dim.diameter);
 				printf("Would you like 8 or 16 cavities in mould?");
-				scanf("%d",&cs->dim.cavity);
-				if(cs->dim.cavity!=8 && cs->dim.cavity!=16)
+				scanf("%d",&s->dim.cavity);
+				if(s->dim.cavity!=8 && s->dim.cavity!=16)
 				{
 					printf("Invalid Input.\nPress any key to  continue...");
 					getch();
 					return;
 				}
-				cs->dim.length=0;
-				cs->dim.width=0;
+				s->dim.length=0.0;
+				s->dim.width=0.0;
 				break;
 			}
 		case 2:
@@ -208,11 +210,11 @@ void buy(struct order *cs)
 				scanf("%d",&ch_3);
 				if(ch_3 == 1)
 				{
-					strcpy(cs->order_subtype,"Acrylic-design");
+					strcpy(s->order_subtype,"Acrylic-design");
 				}
 				else if (ch_3 == 2)
 				{
-					strcpy(cs->order_subtype,"Simple Plastic");
+					strcpy(s->order_subtype,"Simple Plastic");
 				}
 				else
 				{
@@ -221,13 +223,13 @@ void buy(struct order *cs)
 					return;
 				}
 				printf("Enter the height of mould:");
-				scanf("%d",&cs->dim.height);
+				scanf("%f",&s->dim.height);
+				printf("Enter the length of mould:");
+				scanf("%f",&s->dim.length);
 				printf("Enter the width of mould:");
-				scanf("%d",&cs->dim.width);
-				printf("Enter the width of mould:");
-				scanf("%d",&cs->dim.width);
-				cs->dim.diameter=0;
-				cs->dim.cavity=0;
+				scanf("%f",&s->dim.width);
+				s->dim.diameter=0.0;
+				s->dim.cavity=0;
 				break;
 			}
 		case 3:
@@ -239,11 +241,11 @@ void buy(struct order *cs)
 				scanf("%d",&ch_3);
 				if(ch_3 == 1)
 				{
-					strcpy(cs->order_subtype,"Round");
+					strcpy(s->order_subtype,"Round");
 				}
 				else if (ch_3 == 2)
 				{
-					strcpy(cs->order_subtype,"Rectangle");
+					strcpy(s->order_subtype,"Rectangle");
 				}
 				else
 				{
@@ -252,13 +254,13 @@ void buy(struct order *cs)
 					return;
 				}
 				printf("Enter the height of mould:");
-				scanf("%d",&cs->dim.height);
+				scanf("%f",&s->dim.height);
 				printf("Enter the width of mould:");
-				scanf("%d",&cs->dim.width);
+				scanf("%f",&s->dim.width);
 				printf("Enter the length of mould:");
-				scanf("%d",&cs->dim.length);
-				cs->dim.diameter=0;
-				cs->dim.cavity=0;
+				scanf("%f",&s->dim.length);
+				s->dim.diameter=0.0;
+				s->dim.cavity=0;
 				break;
 			}
 		default:
@@ -287,11 +289,11 @@ int main()
 		ch = getch();
 		if(ch == 'y')
 		{
-			printf("enter your customer ID: ");
+			printf("\nenter your customer ID: ");
 			scanf("%d",&id);
 			if (check_id(id)==0)
 			{
-				printf("ID does not exist.\nPress any key to continue...");
+				printf("\nID does not exist.\nPress any key to continue...");
 				getch();
 			}
 			else
@@ -305,10 +307,10 @@ int main()
 		}
 		else
 		{
-			printf("invalid input.\nPress any key to continue...");
+			printf("\ninvalid input.\nPress any key to continue...");
 			getch();
 		}
-		cs.customer_id = id;
+		s.customer_id = id;
 	}
 	
 	char ch_1;
@@ -330,8 +332,8 @@ int main()
 			case '1':
 				{
 					system("cls");
-					buy(&cs);
-					create_record(cs);
+					buy(&s);
+					create_record(s);
 					break;
 				}
 			case '2':
@@ -358,4 +360,5 @@ int main()
 		
 			
 	}
+	return 0;
 }
