@@ -16,7 +16,7 @@ struct order
 	int customer_id;
 	
 	char name[50];
-	char contact[15];
+	char contact[20];
 	char address[200] ;	
 	char order_type[50];
 	char order_subtype[20];
@@ -30,12 +30,16 @@ struct order
 void create_record(struct order s)
 {
 	system("cls");
+	fflush(stdin);
 	printf("Enter your name: ");
-	scanf("%s",&s.name);
+	fgets(s.name,49,stdin);
+	fflush(stdin);
 	printf("Enter your address details: ");
-	scanf("%s",&s.address);
+	fgets(s.address,199,stdin);
+	fflush(stdin);
 	printf("Enter your Contact number: ");
-	scanf("%s",&s.contact);
+	fgets(s.contact,19,stdin);
+	fflush(stdin);
 	strcpy(s.status,"Response Pending");
 		
 		FILE *fp;
