@@ -21,7 +21,7 @@ struct order
 	char order_type[50];
 	char order_subtype[20];
 	struct dimensions dim;
-	char status[20];	
+	char status[50];	
 }s;
 
 
