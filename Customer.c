@@ -13,7 +13,7 @@ struct dimensions
 
 struct order
 {
-	int customer_id;
+	int order_id;
 	
 	char name[50];
 	char contact[20];
@@ -41,12 +41,13 @@ void create_record(struct order s)
 	fgets(s.contact,19,stdin);
 	fflush(stdin);
 	strcpy(s.status,"Response Pending");
+	s.order_id = create_id();
 		
 		FILE *fp;
 		fp = fopen("customer.txt","ab+");
 		if (fp==NULL)
 			{
-				printf("cannot open file.\nPress any key to continue...");
+				printf("\ncannot open file.\nPress any key to continue...");
 				getch();
 				fclose(fp);
 				return;			
@@ -58,35 +59,32 @@ void create_record(struct order s)
 		printf("RECORD STORED SUCCESSFULLY!!!!!\nPress any key to continue...");
 		getch();
 }
-int create_id(int *flag)
+int create_id()
 {
 	int id;
-	*flag = 1;
 		FILE *fp;
 			fp = fopen("customer.txt","ab+");
 			if (fp==NULL)
 			{
-				printf("cannot open file.\nPress any key to continue...");
+				printf("\ncannot open file.\nPress any key to continue...\n");
 				getch();
 				fclose(fp);
-				*flag = 0;
 				return;	
 			}
 			while (fread(&s,sizeof(s),1,fp)>0)
 				{
 					
 				}	
-			if(s.customer_id == '\0')
+			if(s.order_id == '\0')
 			{
 				id = 1;
 			}
 			else
 			{
-				id = s.customer_id + 1;
+				id = s.order_id + 1;
 			}
 			fclose(fp);
-			printf("\nyour customer id is: %d\nPress any key to continue...",id);
-			getch();
+			printf("\nyour order id is: %d\n",id);
 			return id;
 }
 int check_id(int id)
@@ -96,14 +94,14 @@ int check_id(int id)
 		fp = fopen("customer.txt","rb+");
 		if (fp==NULL)
 		{
-			printf("cannot open file.\nPress any key to continue...");
+			printf("\ncannot open file.\nPress any key to continue...");
 			getch();
 			fclose(fp);
 			return;	
 		}
 		while (fread(&s,sizeof(s),1,fp)>0)
 		{
-			if (s.customer_id==id)
+			if (s.order_id==id)
 			{
 				flag = 1;
 			}
@@ -119,25 +117,25 @@ void search(int id)
 		fp = fopen("customer.txt","rb+");
 		if (fp==NULL)
 		{
-			printf("cannot open file.\nPress any key to continue...");
+			printf("\ncannot open file.\nPress any key to continue...\n");
 			getch();
 			fclose(fp);
 			return;	
 		}
 		while (fread(&s,sizeof(s),1,fp)>0)
 		{
-			if (s.customer_id==id)
+			if (s.order_id==id)
 			{
 				flag = 1;
 				printf("\n\n\tYour Record Is As Follows:\n\n");
-				printf("ID: %d\nName: %s\nContact: %s\nAddress: %s\nOrder Type: %s\nOrder Sub-type: %s\nOrder Dimensions:\n	Height: %f\n	Length: %f\n	Width: %f\n	Diameter: %f\n	Cavity: %d\nStatus: %s",s.customer_id,s.name,s.contact,s.address,s.order_type,s.order_subtype,s.dim.height,s.dim.length,s.dim.width,s.dim.diameter,s.dim.cavity,s.status);
+				printf("\nID: %d\nName: %s\nContact: %s\nAddress: %s\nOrder Type: %s\nOrder Sub-type: %s\nOrder Dimensions:\n	Height: %f\n	Length: %f\n	Width: %f\n	Diameter: %f\n	Cavity: %d\nStatus: %s",s.order_id,s.name,s.contact,s.address,s.order_type,s.order_subtype,s.dim.height,s.dim.length,s.dim.width,s.dim.diameter,s.dim.cavity,s.status);
 				printf("\nPress any key to continue...");
 				getch();				
 			}
 		}
 		if(flag == 0)
 		{
-			printf("No Search Record Found!");
+			printf("\nNo Search Record Found!");
 		}
 		fclose(fp);
 		return;
@@ -280,42 +278,15 @@ void buy(struct order *s)
 int main()
 {
 	char ch;
-	int id,flag=0;
-	while (flag == 0)
-	{
+	int id;
+
 		system("cls");
 		printf("\t***********************************************\n");
 		printf("\t\tPATEL and KHAN Mould Walai\n");
 		printf("\t***********************************************\n");
 	
 		
-		printf("Do you have an existing customer ID? (y/n)");
-		ch = getch();
-		if(ch == 'y')
-		{
-			printf("\nenter your customer ID: ");
-			scanf("%d",&id);
-			if (check_id(id)==0)
-			{
-				printf("\nID does not exist.\nPress any key to continue...");
-				getch();
-			}
-			else
-			{
-				flag = 1;
-			}
-		}
-		else if (ch == 'n')
-		{
-			id = create_id(&flag);
-		}
-		else
-		{
-			printf("\ninvalid input.\nPress any key to continue...");
-			getch();
-		}
-		s.customer_id = id;
-	}
+	
 	
 	char ch_1;
 	while(ch_1!=4)
@@ -342,7 +313,17 @@ int main()
 				}
 			case '2':
 				{
+					int check,id;
 					system("cls");
+					printf("Enter your order ID:");
+					scanf("%d",&id);
+					check = check_id(id);
+					if(check == 0)
+					{
+						printf("ID does not exist.\nPress any key to  continue...");
+						getch();
+						break;
+					}
 					search(id);
 					break;
 				}
@@ -364,5 +345,7 @@ int main()
 		
 			
 	}
+	
 	return 0;
+	
 }
