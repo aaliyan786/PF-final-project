@@ -12,8 +12,8 @@ struct dimensions
 
 struct order
 {
-	int customer_id;
-	
+	int order_id;
+	int qty;
 	char name[50];
 	char contact[20];
 	char address[200] ;	
@@ -63,7 +63,7 @@ void display_rec()
 		}
 		while (fread(&s,sizeof(s),1,fp)>0)
 		{
-			printf("\n\n\nID: %d\nName: %s\nContact: %s\nAddress: %s\nOrder Type: %s\nOrder Sub-type: %s\nOrder Dimensions:\n	Height: %f\n	Length: %f\n	Width: %f\n	Diameter: %f\n	Cavity: %d\nStatus: %s\n\n\n",s.customer_id,s.name,s.contact,s.address,s.order_type,s.order_subtype,s.dim.height,s.dim.length,s.dim.width,s.dim.diameter,s.dim.cavity,s.status);				
+			printf("\n\n\nID: %d\nQuantity: %d\nName: %s\nContact: %s\nAddress: %s\nOrder Type: %s\nOrder Sub-type: %s\nOrder Dimensions:\n	Height: %f\n	Length: %f\n	Width: %f\n	Diameter: %f\n	Cavity: %d\nStatus: %s\n\n\n",s.order_id,s.qty,s.name,s.contact,s.address,s.order_type,s.order_subtype,s.dim.height,s.dim.length,s.dim.width,s.dim.diameter,s.dim.cavity,s.status);				
 			printf("\nPress any key to continue...");
 			getch();
 		}
@@ -87,11 +87,11 @@ void search_rec()
 		}
 		while (fread(&s,sizeof(s),1,fp)>0)
 		{
-			if (s.customer_id==id)
+			if (s.order_id==id)
 			{
 				flag = 1;
 				printf("\n\n\tYour Record Is As Follows:\n\n");
-				printf("\nID: %d\nName: %s\nContact: %s\nAddress: %s\nOrder Type: %s\nOrder Sub-type: %s\nOrder Dimensions:\n	Height: %f\n	Length: %f\n	Width: %f\n	Diameter: %f\n	Cavity: %d\nStatus: %s",s.customer_id,s.name,s.contact,s.address,s.order_type,s.order_subtype,s.dim.height,s.dim.length,s.dim.width,s.dim.diameter,s.dim.cavity,s.status);
+				printf("\nID: %d\nQuantity: %d\nName: %s\nContact: %s\nAddress: %s\nOrder Type: %s\nOrder Sub-type: %s\nOrder Dimensions:\n	Height: %f\n	Length: %f\n	Width: %f\n	Diameter: %f\n	Cavity: %d\nStatus: %s",s.order_id,s.qty,s.name,s.contact,s.address,s.order_type,s.order_subtype,s.dim.height,s.dim.length,s.dim.width,s.dim.diameter,s.dim.cavity,s.status);
 				printf("\nPress any key to continue...");
 				getch();				
 			}
@@ -99,6 +99,8 @@ void search_rec()
 		if(flag == 0)
 		{
 			printf("\nNo Search Record Found!\n");
+			printf("\nPress any key to continue...");
+			getch();
 		}
 		fclose(fp);
 		return;
@@ -125,7 +127,7 @@ void del_rec()
 	ft = fopen("temp.txt","wb+");
 	while(fread(&s,sizeof(s),1,fp)>0)
 	{
-		if(id!=s.customer_id)
+		if(id!=s.order_id)
 		{
 			fwrite(&s,sizeof(s),1,ft);
 		}

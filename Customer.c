@@ -14,7 +14,7 @@ struct dimensions
 struct order
 {
 	int order_id;
-	
+	int qty;
 	char name[50];
 	char contact[20];
 	char address[200] ;	
@@ -40,6 +40,8 @@ void create_record(struct order s)
 	printf("Enter your Contact number: ");
 	fgets(s.contact,19,stdin);
 	fflush(stdin);
+	printf("Enter quantity of your order: ");
+	scanf("%d",&s.qty);
 	strcpy(s.status,"Response Pending");
 	s.order_id = create_id();
 		
@@ -128,7 +130,7 @@ void search(int id)
 			{
 				flag = 1;
 				printf("\n\n\tYour Record Is As Follows:\n\n");
-				printf("\nID: %d\nName: %s\nContact: %s\nAddress: %s\nOrder Type: %s\nOrder Sub-type: %s\nOrder Dimensions:\n	Height: %f\n	Length: %f\n	Width: %f\n	Diameter: %f\n	Cavity: %d\nStatus: %s",s.order_id,s.name,s.contact,s.address,s.order_type,s.order_subtype,s.dim.height,s.dim.length,s.dim.width,s.dim.diameter,s.dim.cavity,s.status);
+				printf("\nID: %d\nQuantity: %d\nName: %s\nContact: %s\nAddress: %s\nOrder Type: %s\nOrder Sub-type: %s\nOrder Dimensions:\n	Height: %f\n	Length: %f\n	Width: %f\n	Diameter: %f\n	Cavity: %d\nStatus: %s",s.order_id,s.qty,s.name,s.contact,s.address,s.order_type,s.order_subtype,s.dim.height,s.dim.length,s.dim.width,s.dim.diameter,s.dim.cavity,s.status);
 				printf("\nPress any key to continue...");
 				getch();				
 			}
@@ -186,10 +188,10 @@ void buy(struct order *s)
 					return;
 				}
 				system("cls");
-				printf("Enter the height of mould:");
+				printf("Enter the height of mould in mm:");
 				scanf("%f",&s->dim.height);
 				
-				printf("Enter the diameter of mould:");
+				printf("Enter the diameter of mould in mm:");
 				scanf("%f",&s->dim.diameter);
 				printf("Would you like 8 or 16 cavities in mould?");
 				scanf("%d",&s->dim.cavity);
@@ -224,11 +226,11 @@ void buy(struct order *s)
 					getch();
 					return;
 				}
-				printf("Enter the height of mould:");
+				printf("Enter the height of mould in mm:");
 				scanf("%f",&s->dim.height);
-				printf("Enter the length of mould:");
+				printf("Enter the length of mould in mm:");
 				scanf("%f",&s->dim.length);
-				printf("Enter the width of mould:");
+				printf("Enter the width of mould in mm:");
 				scanf("%f",&s->dim.width);
 				s->dim.diameter=0.0;
 				s->dim.cavity=0;
@@ -255,11 +257,11 @@ void buy(struct order *s)
 					getch();
 					return;
 				}
-				printf("Enter the height of mould:");
+				printf("Enter the height of mould in mm:");
 				scanf("%f",&s->dim.height);
-				printf("Enter the width of mould:");
+				printf("Enter the width of mould in mm:");
 				scanf("%f",&s->dim.width);
-				printf("Enter the length of mould:");
+				printf("Enter the length of mould in mm:");
 				scanf("%f",&s->dim.length);
 				s->dim.diameter=0.0;
 				s->dim.cavity=0;
@@ -277,16 +279,6 @@ void buy(struct order *s)
 }
 int main()
 {
-	char ch;
-	int id;
-
-		system("cls");
-		printf("\t***********************************************\n");
-		printf("\t\tPATEL and KHAN Mould Walai\n");
-		printf("\t***********************************************\n");
-	
-		
-	
 	
 	char ch_1;
 	while(ch_1!=4)
